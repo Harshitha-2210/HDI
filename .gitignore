@@ -1,0 +1,17 @@
+# virtual environments
+venv/
+.venv/
+env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# regenerated synthetic data (optional script output)
+data/hdi_dataset_synthetic.csv

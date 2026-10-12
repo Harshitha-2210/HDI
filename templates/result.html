@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% import "_gauge.html" as g %}
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<section class="container section" style="padding-top:52px;">
+  <div class="section-head">
+    <span class="eyebrow">Prediction Result</span>
+    <h2>The instrument's reading</h2>
+  </div>
+
+  <div class="result-layout">
+    <div class="panel panel-pad" style="display:flex; flex-direction:column; align-items:center;">
+      {{ g.gauge(score=hdi_score, category=category, size=280, color=tier.color) }}
+      <div class="tier-message" style="--tier-color: {{ tier.color }};">
+        {{ tier.message }}
+      </div>
+    </div>
+
+    <div class="panel panel-pad">
+      <h3 style="margin-top:0; font-family: var(--font-display); font-weight:600;">Inputs used</h3>
+      <div class="input-recap">
+        {% for key, meta in fields.items() %}
+        <div class="recap-item">
+          <div class="recap-label">{{ meta.label }}</div>
+          <div class="recap-value">{{ values[key] }} {{ meta.unit }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="form-actions">
+        <a href="{{ url_for('predict') }}" class="btn btn-primary">Run Another Prediction</a>
+        <a href="{{ url_for('insights') }}" class="btn btn-secondary">See Model Insights</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Methodology{% endblock %}
+
+{% block content %}
+<section class="container section" style="padding-top:52px;">
+  <div class="section-head">
+    <span class="eyebrow">Methodology</span>
+    <h2>How the prediction pipeline works</h2>
+    <p>This version predicts HDI from ten real-world socioeconomic and
+      infrastructure indicators instead of fitting the HDI formula itself.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="panel panel-pad">
+      <h3 style="font-family: var(--font-display); margin-top:0;">Infrastructure</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Electricity
+        access, internet users, and water access capture basic services and
+        connectivity essential for development.</p>
+    </div>
+    <div class="panel panel-pad">
+      <h3 style="font-family: var(--font-display); margin-top:0;">Health & Demography</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Infant
+        mortality, health expenditure, and fertility rate provide proxies for
+        health systems and population dynamics.</p>
+    </div>
+    <div class="panel panel-pad">
+      <h3 style="font-family: var(--font-display); margin-top:0;">Labor & Environment</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Unemployment,
+        female labor participation, urbanization, and CO2 emissions capture
+        economic and environmental dimensions.</p>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top:56px;">
+    <span class="eyebrow">Project Pipeline</span>
+    <h2>How this application was built</h2>
+  </div>
+  <ol class="step-list">
+    <li><div><h4>Environment setup</h4><p>NumPy, Pandas, Matplotlib, Seaborn, and scikit-learn form the core toolkit for analysis and modeling.</p></div></li>
+    <li><div><h4>Dataset</h4><p>Real-world country-year observations (4,484 rows) spanning multiple development tiers and ten realistic socioeconomic and infrastructure indicators.</p></div></li>
+    <li><div><h4>Exploratory data analysis</h4><p>Strip plots, distribution plots, a correlation heatmap, and scatter plots reveal how each indicator relates to the final HDI score.</p></div></li>
+    <li><div><h4>Preprocessing</h4><p>Features and the target are separated and the data is split into training (~80%) and test (~20%) sets <strong>by country</strong>, so no country appears in both. Missing values are median-imputed using training-set medians only.</p></div></li>
+    <li><div><h4>Model training</h4><p>A standardized Linear Regression model is compared with a Random Forest Regressor on the held-out countries, confirmed with 5-fold country-grouped cross-validation, and the best performer is serialized.</p></div></li>
+    <li><div><h4>Serialization</h4><p>The selected model and scaler are pickled so the Flask app can load them instantly without retraining.</p></div></li>
+    <li><div><h4>Web application</h4><p>Flask serves the home, prediction, insights, and methodology pages, turning the model into an interactive tool.</p></div></li>
+  </ol>
+</section>
+{% endblock %}

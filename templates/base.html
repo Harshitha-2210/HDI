@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}HDI Predictor{% endblock %} — Human Development Index Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{ url_for('home') }}" class="brand">
+        <span class="brand-mark"></span>
+        HDI Predictor
+      </a>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}" class="{{ 'active' if request.path == '/' }}">Home</a></li>
+        <li><a href="{{ url_for('predict') }}" class="{{ 'active' if request.path.startswith('/predict') }}">Predict</a></li>
+        <li><a href="{{ url_for('insights') }}" class="{{ 'active' if request.path == '/insights' }}">Insights</a></li>
+        <li><a href="{{ url_for('about') }}" class="{{ 'active' if request.path == '/about' }}">Methodology</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:12px;">
+      <span>HDI Predictor — a machine-learning project on human development data.</span>
+      <span>Built with Flask &amp; scikit-learn.</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% macro gauge(score=None, category=None, size=300, color=None) %}
+<div class="gauge-wrap" {% if score is not none %}data-gauge-score="{{ score }}"{% endif %}>
+  <svg viewBox="0 0 300 170" width="{{ size }}" height="{{ (size * 170 / 300) | round(0, 'floor') | int }}" role="img" aria-label="HDI gauge">
+    <!-- zone arcs -->
+    <path d="M 30 150 A 120 120 0 0 1 168.77 31.48" fill="none" stroke="var(--brick)" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 168.77 31.48 A 120 120 0 0 1 220.53 52.92" fill="none" stroke="var(--slate-blue)" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 220.53 52.92 A 120 120 0 0 1 247.08 79.47" fill="none" stroke="var(--teal)" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 247.08 79.47 A 120 120 0 0 1 270 150" fill="none" stroke="var(--gold)" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
+
+    <!-- pivot + needle -->
+    <line x1="150" y1="150" x2="150" y2="42" stroke="var(--parchment)" stroke-width="3"
+          class="gauge-needle" style="transform: rotate({{ ((score * 180 - 90) if score is not none else -90) }}deg);" />
+    <circle cx="150" cy="150" r="9" fill="var(--parchment)" />
+    <circle cx="150" cy="150" r="4" fill="var(--ink)" />
+
+    <text x="24" y="167" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--parchment-dim)">0.0</text>
+    <text x="140" y="24" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--parchment-dim)">0.55</text>
+    <text x="258" y="167" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--parchment-dim)">1.0</text>
+  </svg>
+  {% if score is not none %}
+  <div class="gauge-score">{{ "%.3f"|format(score) }}</div>
+  <div class="gauge-category" style="color: {{ color or 'var(--parchment)' }}">{{ category }}</div>
+  {% endif %}
+</div>
+{% endmacro %}

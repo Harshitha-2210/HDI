@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% import "_gauge.html" as g %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="container hero">
+  <div>
+    <span class="eyebrow">A Comprehensive Measure of Well-Being</span>
+    <h1>Read a nation's development<br>the way you'd read <em>an instrument</em>.</h1>
+    <p class="lede">
+      The Human Development Index is predicted here from ten practical
+      socioeconomic and infrastructure indicators: electricity access, internet
+      users, water access, health expenditure, female labor force participation,
+      unemployment, infant mortality, fertility rate, urban population, and CO2
+      emissions. The model then predicts the HDI score and development tier — Low,
+      Medium, High, or Very High.
+    </p>
+    <div class="hero-actions">
+      <a href="{{ url_for('predict') }}" class="btn btn-primary">Run a Prediction</a>
+      <a href="{{ url_for('insights') }}" class="btn btn-secondary">View the Data</a>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-value">{{ metrics.cv_r2_mean }}</div>
+        <div class="stat-label">R² on unseen countries (5-fold CV)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ metrics.cv_mae_mean }}</div>
+        <div class="stat-label">Mean absolute error (HDI points)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ metrics.n_train + metrics.n_test }}</div>
+        <div class="stat-label">Training observations</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-pad" style="display:flex; justify-content:center;">
+    {{ g.gauge(size=280) }}
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <span class="eyebrow">The Four Tiers</span>
+    <h2>How the reading is classified</h2>
+    <p>Once the model estimates an HDI score, it's placed into one of four
+      development tiers for a simple policy-facing interpretation.</p>
+  </div>
+  <div class="grid-3" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="tier-card" style="--tier-color:#B4544A;">
+      <div class="tier-range">0.000 – 0.549</div>
+      <h3>Low</h3>
+      <p>Significant gaps in basic services and infrastructure call for
+        coordinated intervention.</p>
+    </div>
+    <div class="tier-card" style="--tier-color:#6E8FC4;">
+      <div class="tier-range">0.550 – 0.699</div>
+      <h3>Medium</h3>
+      <p>Emerging economies with room to improve across multiple service
+        dimensions.</p>
+    </div>
+    <div class="tier-card" style="--tier-color:#3E9188;">
+      <div class="tier-range">0.700 – 0.799</div>
+      <h3>High</h3>
+      <p>Solid, broad-based development with strong access and health
+        outcomes.</p>
+    </div>
+    <div class="tier-card" style="--tier-color:#C9A24B;">
+      <div class="tier-range">0.800 – 1.000</div>
+      <h3>Very High</h3>
+      <p>Strong access, health, and labor conditions working together.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <span class="eyebrow">Under the Hood</span>
+    <h2>How a prediction is made</h2>
+  </div>
+  <ol class="step-list">
+    <li>
+      <div>
+        <h4>Enter the ten indicators</h4>
+        <p>Electricity access, internet users, water access, health expenditure,
+          female labor force participation, unemployment, infant mortality,
+          fertility rate, urban population, and CO2 emissions.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <h4>The model scores the inputs</h4>
+        <p>The training pipeline compares a standardized linear model with a
+          random forest on countries it has never seen, and saves the stronger
+          performer.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <h4>The needle settles on a reading</h4>
+        <p>The predicted score is classified into a tier and shown on the
+          instrument, along with what it implies for policy priorities.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+{% endblock %}
